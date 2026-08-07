@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diet HoliDays | 女性用パーソナルジム</title>
+  <style>
+    /* --- CSS Variables --- */
+    :root {
+      --color-green-base: #069c18;
+      --color-red-light: #f54242;
+      --color-brown-main: #e1af6f;
+      --color-pink-light: #f7ecec;
+      --color-orange-accent: #ff6f00;
+      --color-yellow-cta: #ffb300;
+      --color-white: #ffffff;
+      --color-gray: #5b5a5a;
+      --font-title: 'ゴシックMB101DB', 'Helvetica Neue', Arial, sans-serif;
+      --font-body: '行成MM', 'Yu Mincho', YuMincho, serif;
+    }
+
+    /* --- Reset --- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--color-green-base);
+      color: var(--color-gray);
+      font-family: var(--font-body);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 { font-family: var(--font-title); font-weight: bold; }
+
+    img { max-width: 100%; height: auto; display: block; }
+
+    /* --- Layout --- */
+    .section-padding { padding: 80px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .text-center { text-align: center; }
+
+    .section-title {
+      font-size: 2rem;
+      color: var(--color-brown-main);
+      margin-bottom: 48px;
+      display: inline-block;
+    }
+
+    /* --- CTA Button --- */
+    .cta-btn {
+      display: inline-block;
+      background-color: var(--color-yellow-cta);
+      color: var(--color-red-light);
+      font-family: var(--font-title);
+      font-size: 1.15rem;
+      font-weight: bold;
+      padding: 18px 44px;
+      margin-top: 8px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+    }
+    .cta-btn:hover {
+      background-color: #ffca28;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    /* --- Fade Up --- */
+    .fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* --- Header --- */
+    header {
+      background-color: rgba(255,255,255,0.97);
+      padding: 0 20px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .logo {
+      font-family: var(--font-title);
+      font-size: 1.3rem;
+      color: var(--color-brown-main);
+      font-weight: bold;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    /* --- Hamburger --- */
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 101;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .hamburger-line {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background-color: var(--color-gray);
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .hamburger.active .hamburger-line:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.active .hamburger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.active .hamburger-line:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* --- Nav Dropdown --- */
+    .nav {
+      display: none;
+      position: fixed;
+      top: 60px;
+      right: 0;
+      width: 240px;
+      background-color: #ffffff;
+      box-shadow: -4px 6px 20px rgba(0,0,0,0.12);
+      border-radius: 0 0 0 12px;
+      z-index: 99;
+    }
+    @keyframes navSlideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .nav.nav-open { display: block; animation: navSlideDown 0.25s ease forwards; }
+    .nav-list { list-style: none; padding: 8px 0 12px; }
+    .nav-link {
+      display: block;
+      padding: 16px 24px;
+      font-family: var(--font-title);
+      font-size: 1rem;
+      color: var(--color-gray);
+      text-decoration: none;
+      border-bottom: 1px solid #f0ece8;
+      transition: background-color 0.15s, color 0.15s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      cursor: pointer;
+    }
+    .nav-list li:last-child .nav-link { border-bottom: none; }
+    .nav-link:hover, .nav-link:active {
+      background-color: var(--color-pink-light);
+      color: var(--color-brown-main);
+    }
+
+    /* Nav外タップで閉じるためのオーバーレイ */
+    .nav-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 98;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .nav-overlay.active { display: block; }
+
+    /* --- 1. FV --- */
+    .fv {
+      background-color: var(--color-pink-light);
+      padding-top: 60px;
+    }
+    .fv-container {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+    .fv-image-container { flex: 1; }
+    .fv-image {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+    }
+    .fv-text { flex: 1; }
+    .badge-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .badge-announcement {
+      background-color: var(--color-orange-accent);
+      color: var(--color-white);
+      padding: 6px 14px;
+      font-family: var(--font-title);
+      font-size: 0.85rem;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .badge-sub {
+      background-color: var(--color-green-base);
+      color: var(--color-white);
+      padding: 4px 12px;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .fv-sub-copy { font-size: 1rem; margin-bottom: 24px; }
+    .system-appeal {
+      background-color: var(--color-white);
+      border-left: 4px solid var(--color-brown-main);
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.95rem;
+    }
+    .trust-container { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .trust-badge {
+      border: 1px solid var(--color-brown-main);
+      padding: 4px 12px;
+      font-size: 0.8rem;
+      border-radius: 20px;
+      color: var(--color-brown-main);
+      background-color: var(--color-white);
+    }
+    .refund-notice { font-size: 0.72rem; color: var(--color-gray); margin-top: 14px; line-height: 1.5; }
+
+    /* --- 2. Pain --- */
+    .pain { background-color: var(--color-white); }
+    .pain-list { max-width: 700px; margin: 0 auto; list-style: none; }
+    .pain-item {
+      background-color: var(--color-brown-main);
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      text-align: left;
+    }
+    .pain-item::before { content: "✕"; color: var(--color-gray); font-weight: bold; font-size: 1.1rem; flex-shrink: 0; }
+
+    /* --- 3. Concept --- */
+    .concept { background-color: var(--color-red-light); }
+    .concept-box {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: var(--color-white);
+      padding: 48px;
+      border-radius: 12px;
+    }
+    .concept-text { font-size: 1rem; text-align: justify; }
+
+    /* --- 4. Reasons --- */
+    .reasons { background-color: var(--color-white); }
+    .reason-container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .reason-row {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      margin-bottom: 80px;
+    }
+    .reason-row:nth-child(even) { flex-direction: row-reverse; }
+    .reason-row:last-child { margin-bottom: 0; }
+    .choice {
+      position: relative;
+      padding-top: 56.25%; /* 16:9比率をiOS互換で再現 */
+      overflow: hidden;
+      border-radius: 8px;
+      width: 100%;
+    }
+    .choice img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .reason-image-container { flex: 1; }
+    .reason-text { flex: 1; }
+    .square-container { width: 100%; }
+    .reason-num {
+      font-family: var(--font-title);
+      font-size: 2rem;
+      color: var(--color-orange-accent);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .reason-title {
+      font-size: 1.4rem;
+      color: var(--color-brown-main);
+      margin-bottom: 14px;
+      display: block;
+    }
+    .square-container p { font-size: 1rem; text-align: justify; }
+
+    /* --- 5. Pricing --- */
+    .pricing { background-color: var(--color-green-base); }
+    .price-section-title { font-size: 1.6rem; color: var(--color-white); margin-bottom: 32px; }
+    .setplan-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 900px;
+      margin: 0 auto;
+      gap: 20px;
+    }
+    .price-card {
+      background-color: var(--color-white);
+      border: 2px solid var(--color-brown-main);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    .price-header {
+      font-size: 1.15rem;
+      color: var(--color-brown-main);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .price-cashback p { font-size: 1.25rem; color: var(--color-orange-accent); font-weight: bold; margin-bottom: 8px; }
+    .price-amount p { font-size: 1.15rem; color: var(--color-red-light); font-weight: bold; margin-bottom: 8px; }
+    .price-detail p { font-size: 0.9rem; color: var(--color-gray); margin-bottom: 6px; line-height: 1.4; }
+    .rules-notice { font-size: 0.72rem; color: var(--color-gray); margin-top: 6px; line-height: 1.3; }
+
+    /* --- 6. Testimonials --- */
+    .testimonials { background-color: var(--color-white); }
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 1000px;
+      margin: 0 auto 40px;
+      gap: 24px;
+    }
+    .testimonial-card { background-color: var(--color-pink-light); padding: 28px; border-radius: 8px; }
+    .testimonial-age { font-family: var(--font-title); color: var(--color-brown-main); margin-bottom: 10px; display: block; font-weight: bold; }
+
+    /* --- 7. Staff --- */
+    .staff { background-color: var(--color-white); }
+    .staff-row { display: flex; justify-content: center; gap: 20px; margin-bottom: 40px; flex-wrap: wrap; }
+    .staff-card {
+      background-color: var(--color-white);
+      border: 1px solid #f0ece8;
+      border-radius: 8px;
+      padding: 24px;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .staff-card:hover { transform: translateY(-2px); }
+    .staff-avatar-placeholder {
+      width: 110px;
+      height: 110px;
+      margin: 0 auto 14px;
+      background-color: #d5cfc2;
+      border: 3px solid var(--color-white);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .staff-name { font-size: 1rem; margin-bottom: 4px; }
+    .staff-role { font-size: 0.78rem; color: var(--color-brown-main); font-weight: bold; margin-bottom: 8px; }
+    .staff-bubble {
+      position: absolute;
+      bottom: 102%;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background-color: var(--color-red-light);
+      color: var(--color-white);
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      width: 220px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 5;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+    .staff-bubble::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: var(--color-red-light) transparent transparent transparent;
+    }
+    .staff-card:hover .staff-bubble,
+    .staff-card.active .staff-bubble { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .sub-management-title { font-size: 1.4rem; color: var(--color-red-light); margin: 40px 0 20px; }
+
+    /* --- 8. Flow --- */
+    .flow { background-color: var(--color-white); }
+    .flow-steps { display: flex; flex-direction: column; gap: 20px; max-width: 600px; margin: 0 auto; }
+    .flow-step {
+      background-color: var(--color-pink-light);
+      padding: 22px;
+      border-radius: 8px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+    .step-num {
+      font-family: var(--font-title);
+      font-size: 1.3rem;
+      color: var(--color-white);
+      background-color: var(--color-red-light);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* --- 9. FAQ --- */
+    .faq { background-color: var(--color-red-light); }
+    .faq-container { max-width: 750px; margin: 0 auto; }
+    .faq-item { background-color: var(--color-white); margin-bottom: 14px; border-radius: 8px; padding: 22px; }
+    .faq-q { font-family: var(--font-title); font-weight: bold; color: var(--color-orange-accent); margin-bottom: 8px; }
+
+    /* --- 10. Closing --- */
+    .closing { background-color: var(--color-pink-light); }
+
+    /* --- Footer --- */
+    footer { background-color: var(--color-red-light); color: var(--color-white); text-align: center; padding: 36px 24px; font-size: 0.85rem; }
+
+    /* ===================================================
+       レスポンシブ：タブレット
+    =================================================== */
+    @media (max-width: 900px) {
+      .fv-container { gap: 32px; padding: 40px 20px; }
+      .reason-row { gap: 32px; }
+      .setplan-grid { grid-template-columns: 1fr; max-width: 420px; }
+      .testimonial-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ===================================================
+       レスポンシブ：スマホ（768px以下）
+    =================================================== */
+    @media (max-width: 768px) {
+      .section-padding { padding: 56px 16px; }
+      .section-title { font-size: 1.4rem; margin-bottom: 28px; }
+
+      .cta-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 16px 20px;
+        font-size: 1rem;
+      }
+
+      /* FV：縦積み */
+      .fv-container {
+        flex-direction: column;
+        gap: 24px;
+        padding: 28px 16px 48px;
+      }
+      .fv-image-container,
+      .fv-text { width: 100%; flex: none; }
+      .fv-sub-copy { font-size: 0.95rem; }
+      .badge-announcement { font-size: 0.8rem; }
+      .badge-sub { font-size: 0.75rem; }
+
+      /* Pain */
+      .pain-item { font-size: 0.9rem; padding: 14px 16px; }
+
+      /* Concept */
+      .concept-box { padding: 24px 18px; }
+
+      /* Reasons：全行を縦積み */
+      .reason-container { padding: 0 16px; }
+      .reason-row,
+      .reason-row:nth-child(even) {
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 56px;
+      }
+      .reason-image-container,
+      .reason-text { width: 100%; flex: none; }
+      .reason-num { font-size: 1.6rem; }
+      .reason-title { font-size: 1.15rem; }
+      .square-container p { font-size: 0.95rem; }
+
+      /* Pricing：1列 */
+      .setplan-grid { grid-template-columns: 1fr; max-width: 100%; }
+
+      /* Testimonials：1列 */
+      .testimonial-grid { grid-template-columns: 1fr; margin-bottom: 28px; }
+      .testimonial-card { padding: 20px; }
+
+      /* Staff */
+      .staff-row { gap: 12px; }
+      .staff-card { width: calc(50% - 6px); padding: 16px; }
+      .staff-avatar-placeholder { width: 80px; height: 80px; }
+      .staff-name { font-size: 0.9rem; }
+      .staff-bubble { width: 160px; font-size: 0.72rem; }
+
+      /* Flow */
+      .flow-step { padding: 16px; gap: 14px; }
+
+      /* FAQ */
+      .faq-item { padding: 18px 16px; }
+      .faq-q { font-size: 0.95rem; }
+    }
+
+    /* スマホ小サイズ */
+    @media (max-width: 400px) {
+      .staff-card { width: 100%; }
+      .logo { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- オーバーレイ（メニュー外タップで閉じる） -->
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <header>
+    <div class="header-inner">
+      <a href="#home" class="logo">Diet HoliDays</a>
+      <nav class="nav" id="mainNav" aria-label="メインナビゲーション">
+        <ul class="nav-list">
+          <li><a href="#home" class="nav-link">ホーム</a></li>
+          <li><a href="#reasons" class="nav-link">選ばれる理由</a></li>
+          <li><a href="#pricing" class="nav-link">料金プラン</a></li>
+          <li><a href="#testimonials" class="nav-link">お客様の声</a></li>
+          <li><a href="#staff" class="nav-link">スタッフ</a></li>
+          <li><a href="#flow" class="nav-link">無料体験</a></li>
+          <li><a href="#faq" class="nav-link">よくある質問</a></li>
+        </ul>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 1. ファーストビュー -->
+  <section id="home" class="fv">
+    <div class="fv-container">
+      <div class="fv-image-container">
+        <h1>
+          <img class="fv-image" src="title.png" alt="メインタイトル：もうひとりで頑張らなくていい −５kg トレーニングに励むお客様と寄り添うトレーナー">
+        </h1>
+      </div>
+      <div class="fv-text">
+        <div class="badge-container">
+          <span class="badge-announcement">＼ 運動初心者でも絶対安心！ ／ 全コース傷害保険付き</span>
+          <span class="badge-sub">目標未達成・1ヶ月無料延長（5ヶ月継続時※食事・維持費等除く、当社の定めによる）</span>
+          <span class="badge-sub">2週間以上連続休会救済措置あり（※当社の定めによる）</span>
+        </div>
+
+        <p class="fv-sub-copy">心・食・体の「W資格」プロフェッショナルが、あなた専用のダイエットを完全サポート。<br>1ヶ月無料延長あり / 安心の救済制度（※注意事項あり）</p>
+
+        <div class="system-appeal">
+          <p><strong>いつでも損なし！安心の起算システム</strong><br>どの日に入会しても、その日から1ヶ月を起算します。月頭でも月末でも、途中入会による損は一切ありません。また、2週間以上連続して休まれた場合は救済措置があります（※無断休会除く）。</p>
+        </div>
+
+        <div class="trust-container">
+          <span class="trust-badge">NESTA-PFT & JATI-ATI W資格保有トレーナー</span>
+          <span class="trust-badge">栄養士・管理栄養士 W資格栄養士</span>
+          <span class="trust-badge">臨床心理士・産業カウンセラー W資格カウンセラー</span>
+        </div>
+
+        <a href="#flow" class="cta-btn">まずは無料体験で雰囲気をチェック！</a>
+
+        <p class="refund-notice">別則：目標未達成時の1ヶ月延長あり（お客様が当社に5ヶ月以上通い続け、当社の指導を受け、当社との良好な関係を守っていると当社が判断した時のみ適用されます。勝手な食事を摂られたり、トレーニングの意思がないにも関わらずあると偽る行為は除外されます。また、判定はお客様とは独立して当社の独断で決定するため、まれな決定とお心算ください。通常は適用されません。一緒に目標を達成しましょう。）</p>
+        <p class="refund-notice">注：目標未達成時の半額返金あり（別則と同じ内容で半額返金に当社の判断で応じる場合あり。かなり稀なケースです。）</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 共感・お悩み提起 -->
+  <section class="pain section-padding text-center">
+    <div class="container fade-up">
+      <h2 class="section-title">ダイエット、こんな風にひとりで悩んでいませんか？</h2>
+      <ul class="pain-list" style="display: inline-block; text-align: left;">
+        <li class="pain-item">「ダイエットが続かない、いつも途中でリバウンドしてしまう…」</li>
+        <li class="pain-item">「厳しい食事制限や、ハードなトレーニングについていけるか不安…」</li>
+        <li class="pain-item">「一人だと途中で心が折れてしまいそう…」</li>
+        <li class="pain-item">「パーソナルジムって、高額なコース料金を一括で払うのが怖い…」</li>
+        <li class="pain-item">「運動は苦手だけれど、ケガをしないか心配…」</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. コンセプト -->
+  <section class="concept section-padding text-center">
+    <div class="container fade-up">
+      <div class="concept-box">
+        <h2 class="section-title" style="margin-bottom: 24px;">あなたのお悩みに、Diet HoliDaysは寄り添います。</h2>
+        <p class="concept-text">Diet HoliDaysでは、お客様とスタッフは上下関係のない「対等なパートナー」です。私たちはただ、プロとしての正しいアドバイスを贈るだけ。全員がひとつの目標に向かって進む「船の仲間」であり、助け合うことを何よりも大切にしています。<br><br>お客様が威張るのも、スタッフが威張るのもおかしい。お互いを尊重し合いながら、目標に向かってゆったり、でも懸命に進んでいきましょう。<br><br>私たちが目指すのは、単なる減量ではなく、体を鍛え、容姿を整えた先にある「お客様の理想の自己実現」です。会社全体がクリアで開かれた場所であるために、私たちは質の高いサービスをお手頃な価格で提供し、一丸となって精励しています。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 選ばれる4つの理由 -->
+  <section id="reasons" class="reasons section-padding">
+    <div class="reason-container">
+
+      <div class="reason-row fade-up">
+        <div class="reason-image-container">
+          <div class="choice"><img src="training.png" width="528" height="297" alt="トレーニングの写真、お客様とトレーナーがマンツーマンでトレーニングしている" title="トレーニングの写真"></div>
+        </div>
+        <div class="reason-text">
+          <div class="square-container">
+            <span class="reason-num">Reason 01</span>
+            <h3 class="reason-title">圧倒的な信頼度！プロフェッショナルなトレーナー</h3>
+            <p>3名のトレーナー全員が「NESTA-PFT」と「JATI-ATI」の強固なW資格を保有。解剖学・運動生理学に基づいた、安全で質の高い完全マンツーマン指導を提供します。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reason-row fade-up">
+        <div class="reason-image-container">
+          <div class="choice"><img src="meal.png" width="528" height="297" alt="食事プレートの写真、サーモン、野菜、雑穀、ナッツ、果物が盛り付けられている" title="食事プレートの写真"></div>
+        </div>
+        <div class="reason-text">
+          <div class="square-container">
+            <span class="reason-num">Reason 02</span>
+            <h3 class="reason-title">W資格栄養士による、無理のない食事アドバイス&宅配</h3>
+            <p>栄養士・管理栄養士のW資格を持つ食のプロがサポート。極端な制限はなく、あなた専用のオリジナルメニューで美しく痩せる知識が身につきます。<br><strong>【食事宅配サービス（別料金）】：</strong>ダイエット中の食の心配がなくなる、1日3食の宅配メニューもご用意しています。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reason-row fade-up">
+        <div class="reason-image-container">
+          <div class="choice"><img src="counsel.png" width="528" height="297" alt="カウンセリングの写真、お客様とカウンセラー" title="カウンセリングの写真"></div>
+        </div>
+        <div class="reason-text">
+          <div class="square-container">
+            <span class="reason-num">Reason 03</span>
+            <h3 class="reason-title">W資格心理士による、障壁を取り除くカウンセリング</h3>
+            <p>臨床心理士・産業カウンセラーのW資格を持つカウンセリングのプロがサポート。目標に向かう運動や減量のストレスに伴う不安、仕事の不安にカウンセラーが寄り添います。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reason-row fade-up">
+        <div class="reason-image-container">
+          <div class="choice"><img src="infitness.png" width="528" height="297" alt="安心・救済のイメージ図" title="安心、救済のイメージ写真"></div>
+        </div>
+        <div class="reason-text">
+          <div class="square-container">
+            <span class="reason-num">Reason 04</span>
+            <h3 class="reason-title">障壁はゼロ。徹底的な「安心・救済システム」</h3>
+            <p>全コース傷害保険付きで、万が一のケガにも対応。さらに目標未達成時の1ヶ月無料延長（※5ヶ月以上継続等の諸条件あり）など、どのような状況でも必ず救済を図る仕組みをご用意しています。</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. 料金プラン -->
+  <section id="pricing" class="pricing section-padding text-center">
+    <div class="container fade-up">
+      <h2 class="price-section-title">セットプラン　始めてみましょう。</h2>
+      <div class="setplan-grid">
+
+        <div class="price-card">
+          <h3 class="price-header">▪️セットプラン（1ヶ月基本）<br>お試しプラン Basic</h3>
+          <div class="price-cashback"><p style="color: var(--color-orange-accent);">料金：86,000円（税込）</p></div>
+          <div class="price-amount"><p>すべてのプランのベースとなる、1ヶ月短期集中コースです。</p></div>
+        </div>
+
+        <div class="price-card">
+          <h3 class="price-header">▪️セットプラン（3ヶ月基本）<br>⭐️人気No.1</h3>
+          <div class="price-cashback"><p>🌟48,000円 キャッシュバック</p></div>
+          <div class="price-amount"><p>1ヶ月あたり 70,000円</p></div>
+          <div class="price-detail"><p>実質総額：210,000円（税込）</p></div>
+          <p class="rules-notice">※入会時に定価 258,000円をお支払いいただき、コース終了後に48,000円を全額キャッシュバックいたします。</p>
+          <p class="rules-notice">※3ヶ月の目安はありますが、契約は「完全1ヶ月単位での更新」です。</p>
+          <p class="rules-notice">※中途退会時はBasicを元に計算いたします。</p>
+        </div>
+
+        <div class="price-card">
+          <h3 class="price-header">▪️セットプラン（5ヶ月基本）<br>お得なプラン</h3>
+          <div class="price-cashback"><p>🌟100,000円 キャッシュバック</p></div>
+          <div class="price-amount"><p>1ヶ月あたり 66,000円</p></div>
+          <div class="price-detail"><p>実質総額：330,000円（税込）<br>※Basicより毎月20,000円もお得！</p></div>
+          <p class="rules-notice">※入会時に定価 430,000円をお支払いいただき、コース終了後に🌟100,000円を全額キャッシュバックいたします。</p>
+          <p class="rules-notice">※契約は「完全1ヶ月単位での更新」を採用しています。</p>
+          <p class="rules-notice">※中途退会時はBasicを元に計算いたします。</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. お客様の声 -->
+  <section id="testimonials" class="testimonials section-padding text-center">
+    <div class="container fade-up">
+      <h2 class="section-title">お客様の声</h2>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <span class="testimonial-age">20代女性</span>
+          <p style="text-align: left; font-size: 0.95rem;">「食事が本当に美味しく、苦しくなりそうな時もカウンセラーさんや栄養士さんの支えがあって無理なく続けられました！月謝制なのも安心でした。」</p>
+        </div>
+        <div class="testimonial-card">
+          <span class="testimonial-age">30代女性</span>
+          <p style="text-align: left; font-size: 0.95rem;">「トレーナーさんが全員厳しい資格を持っているプロなので、運動経験がなくてもケガの心配なく安心してお任せできます。メンタル面までここまでサポートしてくれるジムは初めてです。」</p>
+        </div>
+        <div class="testimonial-card">
+          <span class="testimonial-age">20代女性</span>
+          <p style="text-align: left; font-size: 0.95rem;">「カウンセラーさんが産業カウンセラーの資格も持っているので、ダイエット＋仕事の悩みも相談に乗ってもらいました。心身ともに本当に助かりました。」</p>
+        </div>
+      </div>
+      <a href="#flow" class="cta-btn" style="max-width: 400px; margin: 0 auto;">まずは無料体験してみる！</a>
+    </div>
+  </section>
+
+  <!-- 7. 全スタッフ紹介 -->
+  <section id="staff" class="staff section-padding text-center">
+    <div class="container fade-up">
+      <h2 class="section-title">あなたを支える、W資格保有スペシャリストたち</h2>
+
+      <div class="staff-row">
+        <div class="staff-card">
+          <div class="staff-bubble">「目標に向かう船に乗る仲間として、あなたの自己実現を全力で応援します！」</div>
+          <div class="staff-avatar-placeholder"><img src="trainer-woman01.png" alt="トレーナー・河村瑛子の写真" width="110" height="110"></div>
+          <h4 class="staff-name">河村瑛子</h4>
+          <p class="staff-role">NESTA-PFT / JATI-ATI</p>
+        </div>
+        <div class="staff-card">
+          <div class="staff-bubble">「お互い対等なパートナーとして、一歩一歩ゆったり、でも懸命に進んでいきましょう！」</div>
+          <div class="staff-avatar-placeholder"><img src="trainer-woman02.png" alt="トレーナー・小林茉奈の写真" width="110" height="110"></div>
+          <h4 class="staff-name">小林茉奈</h4>
+          <p class="staff-role">NESTA-PFT / JATI-ATI</p>
+        </div>
+        <div class="staff-card">
+          <div class="staff-bubble">「体を鍛え、容姿を整えた先にある『なりたい自分』へ、一緒に躍動していきましょう！」</div>
+          <div class="staff-avatar-placeholder"><img src="trainer-man.png" alt="トレーナー・山川英二の写真" width="110" height="110"></div>
+          <h4 class="staff-name">山川英二</h4>
+          <p class="staff-role">NESTA-PFT / JATI-ATI</p>
+        </div>
+      </div>
+
+      <div class="staff-row">
+        <div class="staff-card">
+          <div class="staff-bubble">「美味しい食事を楽しみながら目標へ。あなたの努力を食の面から100%バックアップします！」</div>
+          <div class="staff-avatar-placeholder"><img src="nutritionist.png" alt="栄養士・小倉絵梨子の写真" width="110" height="110"></div>
+          <h4 class="staff-name">小倉絵梨子</h4>
+          <p class="staff-role">栄養士 / 管理栄養士</p>
+        </div>
+        <div class="staff-card">
+          <div class="staff-bubble">「心が苦しくなりそうな時はいつでも頼ってください。同じ目線で、そっと支えます。」</div>
+          <div class="staff-avatar-placeholder"><img src="counselor.png" alt="カウンセラー・高田麻里の写真" width="110" height="110"></div>
+          <h4 class="staff-name">高田麻里</h4>
+          <p class="staff-role">臨床心理士 / 産業カウンセラー</p>
+        </div>
+      </div>
+
+      <h3 class="sub-management-title">スタッフを支える管理者・経営者</h3>
+      <div class="staff-row">
+        <div class="staff-card">
+          <div class="staff-bubble">「スタッフが一番輝き、最高のサービスを提供できるクリアな環境作りに尽力します。」</div>
+          <div class="staff-avatar-placeholder"><img src="ope-manager.png" alt="運営管理者・川島知愛実の写真" width="110" height="110"></div>
+          <h4 class="staff-name">運営管理者・川島知愛実</h4>
+          <p class="staff-role">バックオフィス</p>
+        </div>
+        <div class="staff-card">
+          <div class="staff-bubble">「お客様、スタッフ、管理者、全員が目標を実現し、共に活性化していける開かれた会社を目指します。」</div>
+          <div class="staff-avatar-placeholder"><img src="ceo.png" alt="経営代表・高田龍起の写真" width="110" height="110"></div>
+          <h4 class="staff-name">経営代表・高田龍起</h4>
+          <p class="staff-role">バックオフィス</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. 無料体験からご入会への流れ -->
+  <section id="flow" class="flow section-padding">
+    <div class="container fade-up">
+      <h2 class="section-title text-center" style="display: block;">まずは無料体験へ！無理な勧誘は一切ありません</h2>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div>
+            <h4 style="font-family: var(--font-title); font-weight: bold; margin-bottom: 4px;">Webから無料体験の予約</h4>
+            <p>簡単1分で完了、まずはスケジュールと雰囲気をチェック。</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div>
+            <h4 style="font-family: var(--font-title); font-weight: bold; margin-bottom: 4px;">ご来店・カウンセリング＆ジムの雰囲気チェック</h4>
+            <p>あなたのお悩みや目指したい姿をゆっくり聞かせてください。</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div>
+            <h4 style="font-family: var(--font-title); font-weight: bold; margin-bottom: 4px;">マンツーマン無料体験トレーニング</h4>
+            <p>W資格プロフェッショナルの優しい丁寧な指導を体感。</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div>
+            <h4 style="font-family: var(--font-title); font-weight: bold; margin-bottom: 4px;">ご入会</h4>
+            <p>ご納得いただけた場合のみ、安心の月謝制でスタートしていただけます。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. よくあるご質問 -->
+  <section id="faq" class="faq section-padding">
+    <div class="container fade-up">
+      <h2 class="section-title text-center" style="display: block;">よくあるご質問（Q&A）</h2>
+      <div class="faq-container">
+        <div class="faq-item">
+          <p class="faq-q">Q：本当に運動経験がなくても大丈夫ですか？</p>
+          <p>A：はい、全く問題ありません。全員がW資格を持つプロトレーナーがあなたの体力に合わせて指導します。さらに万が一のための「傷害保険」も全コースに付帯しておりますので安心してお越しください。</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Q：3ヶ月コースなどの長期縛りや、一括払いはありますか？</p>
+          <p>A：いいえ、ありません。当ジムは、通いやすい「1ヶ月ごとの月謝制（自動更新）」を取り入れています。高額なローンを組む必要もなく、ご自身のタイミングで継続・終了を選んでいただけます。</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Q：目標が達成できなかった場合の返金や延長は本当ですか？</p>
+          <p>A：はい、本当です。当社の定める基準に則り、目標未達成時の「1ヶ月無料延長（※食事や施設維持費等の一部実費あり）」または「半額返金」という救済制度を設けております。影のない誠実な運営を徹底しています。</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Q：無料体験だけでも良いですか？</p>
+          <p>A：もちろんです！まずはジムやスタッフの雰囲気をチェックしていただくための体験ですので、お気軽にお申し込みください。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. クロージング -->
+  <section class="closing section-padding text-center">
+    <div class="container fade-up">
+      <h2 class="section-title">ココロもカラダも、もうひとりで悩まなくていい。</h2>
+      <p style="max-width: 600px; margin: 0 auto 32px;">Diet HoliDaysは、あなたが挫折しないためのすべてを揃えて待っています。プロフェッショナルな仲間たちと一緒に、新しく心地よい自分に出会う一歩を踏み出してみませんか？</p>
+      <a href="#flow" class="cta-btn" style="max-width: 400px; margin: 0 auto;">まずは無料体験で雰囲気をチェック！</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Diet HoliDays. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // --- ハンバーガーメニュー ---
+    const hamburger = document.getElementById('hamburger');
+    const mainNav   = document.getElementById('mainNav');
+    const overlay   = document.getElementById('navOverlay');
+
+    function openNav() {
+      mainNav.classList.add('nav-open');
+      hamburger.classList.add('active');
+      overlay.classList.add('active');
+      hamburger.setAttribute('aria-expanded', 'true');
+    }
+    function closeNav() {
+      mainNav.classList.remove('nav-open');
+      hamburger.classList.remove('active');
+      overlay.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }
+
+    // ハンバーガーボタン：click と touchend 両方対応
+    hamburger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      mainNav.classList.contains('nav-open') ? closeNav() : openNav();
+    });
+
+    // オーバーレイ：click と touchstart 両方対応（iOS対策）
+    overlay.addEventListener('click', closeNav);
+    overlay.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      closeNav();
+    }, { passive: false });
+
+    // ナビリンク：タップしたらセクションへ移動してメニューを閉じる
+    document.querySelectorAll('.nav-link').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.stopPropagation();
+        closeNav();
+      });
+      // iOS touchend でも反応させる
+      link.addEventListener('touchend', function(e) {
+        e.stopPropagation();
+        closeNav();
+      }, { passive: true });
+    });
+
+    // --- スクロールフェードアップ ---
+    const scrollObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => scrollObserver.observe(el));
+
+    // --- スタッフカード（タップで吹き出し表示）---
+    const staffCards = document.querySelectorAll('.staff-card');
+    staffCards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        staffCards.forEach(c => { if (c !== card) c.classList.remove('active'); });
+        card.classList.toggle('active');
+        e.stopPropagation();
+      });
+    });
+    document.addEventListener('click', () => {
+      staffCards.forEach(c => c.classList.remove('active'));
+    });
+  </script>
+</body>
+</html>
