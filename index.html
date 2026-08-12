@@ -36,7 +36,10 @@
 
     /* --- Layout --- */
     .section-padding { padding: 80px 24px; }
-    .container { max-width: 1100px; margin: 0 auto; }
+    .container { 
+      max-width: 1100px; 
+      margin: 0 auto;
+    }
     .text-center { text-align: center; }
 
     .section-title {
@@ -44,6 +47,7 @@
       color: var(--color-brown-main);
       margin-bottom: 48px;
       display: inline-block;
+      text-align: left;
     }
 
     /* --- CTA Button --- */
@@ -179,11 +183,12 @@
 
     /* --- 1. FV --- */
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.7rem;
       color: var(--color-white);
       background-color: var(--color-orange-accent);
+      font-weight: bold;
       margin-bottom: 12px;
-      padding: 12px 14px;
+      padding: 14px 12px;
       border-radius: 8px;
       font-family: corbel, sans-serif;
     }
@@ -271,7 +276,7 @@
       border-radius: 12px;
     }
     .concept-text { font-size: 1rem; text-align: justify; }
-
+    
     /* --- 4. Reasons --- */
     .reasons { background-color: var(--color-white); }
     .reason-container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
@@ -526,6 +531,7 @@
       .staff-card { width: calc(50% - 6px); padding: 16px; }
       .staff-avatar-placeholder { width: 80px; height: 80px; }
       .staff-name { font-size: 0.9rem; }
+    
       .staff-bubble { width: 160px; font-size: 0.72rem; }
 
       /* Flow */
@@ -808,9 +814,9 @@
   </section>
 
   <!-- 8. 無料体験からご入会への流れ -->
-  <section id="flow" class="flow section-padding">
+  <section id="flow" class="flow section-padding text-center">
     <div class="container fade-up">
-      <h2 class="section-title text-center" style="display: block;">まずは無料体験へ！無理な勧誘は一切ありません</h2>
+      <h2 class="section-title">まずは無料体験へ！無理な勧誘は一切ありません</h2>
       <div class="flow-steps">
         <div class="flow-step">
           <div class="step-num">1</div>
@@ -845,9 +851,9 @@
   </section>
 
   <!-- 9. よくあるご質問 -->
-  <section id="faq" class="faq section-padding">
+  <section id="faq" class="faq section-padding text-center">
     <div class="container fade-up">
-      <h2 class="section-title text-center" style="display: block;">よくあるご質問（Q&A）</h2>
+      <h2 class="section-title">よくあるご質問（Q&A）</h2>
       <div class="faq-container">
         <div class="faq-item">
           <p class="faq-q">Q：本当に運動経験がなくても大丈夫ですか？</p>
