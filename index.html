@@ -18,7 +18,16 @@
       --font-title: 'ゴシックMB101DB', 'Helvetica Neue', Arial, sans-serif;
       --font-body: '行成MM', 'Yu Mincho', YuMincho, serif;
     }
-
+  /*見出しフォントしてい*/
+   @font-face {
+    font-family: '1';
+    src: local('Slab serif');
+   }
+  @font-face {
+    font-family: '2';
+    src: local('Sans serif');
+   }
+  
     /* --- Reset --- */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -48,6 +57,7 @@
       margin-bottom: 48px;
       display: block;
       text-align: center;
+      text-shadow: 1px 2px 0px var(--color-orange-accent);
     }
 
     /* --- CTA Button --- */
@@ -182,15 +192,21 @@
     .nav-overlay.active { display: block; }
 
     /* --- 1. FV --- */
+   .change-font { 
+    font-family: '1', 'Slab serif';
+    font-size: 2.2rem;
+  }
     h1 {
       font-size: 1.7rem;
       color: var(--color-white);
       background-color: var(--color-orange-accent);
       font-weight: bold;
-      margin-bottom: 12px;
+      margin-bottom: 1.2rem;
       padding: 14px 12px;
       border-radius: 8px;
       font-family: corbel, sans-serif;
+
+      box-shadow: 10px 15px 7px var(--color-brown-main);
     }
     
     .fv {
@@ -238,6 +254,7 @@
     .system-appeal {
       background-color: var(--color-white);
       border-left: 4px solid var(--color-brown-main);
+      border-right: 4px solid var(--color-brown-main);
       padding: 14px 16px;
       margin-bottom: 1rem;
       margin-top: 1rem;
@@ -267,6 +284,7 @@
       align-items: flex-start;
       gap: 12px;
       text-align: left;
+      box-shadow: 3px 4px 7px var(--color-brown-main);
     }
     .pain-item::before { content: "✕"; color: var(--color-gray); font-weight: bold; font-size: 1.1rem; flex-shrink: 0; }
 
@@ -278,6 +296,7 @@
       background-color: var(--color-white);
       padding: 48px;
       border-radius: 12px;
+      box-shadow: 8px 12px 5.5px var(--color-brown-main);
     }
     .concept-text { font-size: 1rem; text-align: justify; }
     
@@ -334,6 +353,7 @@
       color: var(--color-orange-accent);
       margin-bottom: 0.5rem;
       text-align: center;
+      text-shadow: 1px 2px 0px var(--color-brown-main);
     }
     .price-section-title01 {
       font-family: var(--font-title);
@@ -341,6 +361,7 @@
       color: var(--color-orange-accent); 
       margin-bottom: 1.5rem; 
       text-align: center;
+      text-shadow: 1px 2px 0px var(--color-brown-main);
     }
     .price-section-title::before { 
       font-size: 1.6rem; 
@@ -415,6 +436,7 @@
       position: relative;
       cursor: pointer;
       transition: transform 0.3s;
+      box-shadow: 3px 4px 5.5px var(--color-brown-main);
     }
     .staff-card:hover { transform: translateY(-2px); }
     .staff-avatar-placeholder {
@@ -422,7 +444,7 @@
       height: 110px;
       margin: 0 auto 14px;
       background-color: #d5cfc2;
-      border: 3px solid var(--color-white);
+      border: 3px solid var(--color-pink-light);
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
     .staff-name { font-size: 1rem; margin-bottom: 4px; }
@@ -463,7 +485,11 @@
     
     /* --- 8. Flow --- */
     .flow { background-color: var(--color-white); }
-    .flow-steps { display: flex; flex-direction: column; gap: 20px; max-width: 600px; margin: 0 auto; }
+    .flow-steps { 
+      display: flex; 
+      flex-direction: column; gap: 20px; 
+      max-width: 600px; margin: 0 auto;
+   }
     .flow-step {
       background-color: var(--color-pink-light);
       padding: 22px;
@@ -471,6 +497,7 @@
       display: flex;
       gap: 18px;
       align-items: flex-start;
+       box-shadow: 3px 4px 5.5px var(--color-brown-main);
     }
     .step-num {
       font-family: var(--font-title);
@@ -489,7 +516,13 @@
     /* --- 9. FAQ --- */
     .faq { background-color: var(--color-pink-light); }
     .faq-container { max-width: 750px; margin: 0 auto; }
-    .faq-item { background-color: var(--color-white); margin-bottom: 14px; border-radius: 8px; padding: 22px; }
+    .faq-item { 
+      background-color: var(--color-white);
+       margin-bottom: 14px; 
+       border-radius: 8px; 
+       padding: 22px; 
+      box-shadow: 3px 4px 5.5px var(--color-brown-main);
+      }
     .faq-q { font-family: var(--font-title); font-weight: bold; color: var(--color-orange-accent); margin-bottom: 8px; }
 
     /* --- 10. Closing --- */
@@ -618,7 +651,7 @@
   <section id="home" class="fv">
     <div class="fv-container">
       <div class="fv-image-container">
-        <h1>Me-time Fitness Studio</h1>
+        <h1><span class="change-font">M</span>e-time <span class="change-font">F</span>itness <span class="change-font">S</span>tudio</h1>
           <img class="fv-image" src="title.png" alt="メインタイトル：もうひとりで頑張らなくていい −５kg トレーニングに励むお客様と寄り添うトレーナー">
         
       </div>
@@ -653,7 +686,7 @@
   <!-- 2. 共感・お悩み提起 -->
   <section id="synpathy" class="pain section-padding text-center">
     <div class="container fade-up">
-      <h2 class="section-title">ダイエット、こんな風に<br>ひとりで<br>悩んでいませんか？</h2>
+      <h2 class="section-title">ダイエット　こんな風に<br>ひとりで<br>悩んでいませんか？</h2>
       <ul class="pain-list" style="display: inline-block; text-align: left;">
         <li class="pain-item">「ダイエットが続かない、いつも途中でリバウンドしてしまう…」</li>
         <li class="pain-item">「厳しい食事制限や、ハードなトレーニングについていけるか不安…」</li>
@@ -668,7 +701,7 @@
   <section id="concepts" class="concept section-padding text-center">
     <div class="container fade-up">
       <div class="concept-box">
-        <h2 class="section-title" style="margin-bottom: 24px;">あなたのお悩みに、<br>Diet HoliDaysは寄り添います。</h2>
+        <h2 class="section-title" style="margin-bottom: 24px;">あなたのお悩みに<br>Diet HoliDaysは寄り添います。</h2>
         <p class="concept-text">Diet HoliDaysでは、お客様とスタッフは上下関係のない「対等なパートナー」です。私たちはただ、プロとしての正しいアドバイスを贈るだけ。全員がひとつの目標に向かって進む「船の仲間」であり、助け合うことを何よりも大切にしています。<br><br>お客様が威張るのも、スタッフが威張るのもおかしい。お互いを尊重し合いながら、目標に向かってゆったり、でも懸命に進んでいきましょう。<br><br>私たちが目指すのは、単なる減量ではなく、体を鍛え、容姿を整えた先にある「お客様の理想の自己実現」です。会社全体がクリアで開かれた場所であるために、私たちは質の高いサービスをお手頃な価格で提供し、一丸となって精励しています。</p>
       </div>
     </div>
@@ -698,7 +731,7 @@
         <div class="reason-text">
           <div class="square-container">
             <span class="reason-num">Reason 02</span>
-            <h3 class="reason-title">W資格栄養士による、<br>無理のない食事アドバイス&宅配</h3>
+            <h3 class="reason-title">W資格栄養士による<br>無理のない食事アドバイス&宅配</h3>
             <p>栄養士・スポーツ栄養士のW資格を持つ食のプロがサポート。極端な制限はなく、あなた専用のオリジナルメニューで美しく痩せる知識が身につきます。<br><strong>【食事宅配サービス（別料金）】：</strong>ダイエット中の食の心配がなくなる、1日3食の宅配メニューもご用意しています。</p>
           </div>
         </div>
@@ -711,7 +744,7 @@
         <div class="reason-text">
           <div class="square-container">
             <span class="reason-num">Reason 03</span>
-            <h3 class="reason-title">W資格心理士による、<br>障壁を取り除くカウンセリング</h3>
+            <h3 class="reason-title">W資格心理士による<br>障壁を取り除くカウンセリング</h3>
             <p>臨床心理士・産業カウンセラーのW資格を持つカウンセリングのプロがサポート。目標に向かう運動や減量のストレスに伴う不安、仕事の不安にカウンセラーが寄り添います。</p>
           </div>
         </div>
