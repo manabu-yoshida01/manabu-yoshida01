@@ -208,7 +208,12 @@
 
       box-shadow: 10px 15px 7px var(--color-brown-main);
     }
-    
+    h1::after {
+      content: url(logo.tif);
+     
+      background-color: var(--color-orange-accent);
+      vertical-align: bottom;
+    }
     .fv {
       background-color: var(--color-pink-light);
       padding-top: 60px;
@@ -532,8 +537,12 @@
     /* --- 10. Closing --- */
     .closing { 
      background-image: url('bgimage.png');
-     width: 100%;
-     height: 100%;
+     min-width: 80vw;
+     min-height: 80vh;
+     
+     background-repeat: no-repeat;
+     background-position: center;
+     background-size: cover;
      z-index: 0;
      position: relative;
     }
@@ -566,7 +575,18 @@
 
     /* --- Footer --- */
     footer { background-color: var(--color-pink-light); color: var(--color-orange-accent); text-align: center; padding: 36px 24px; font-size: 0.85rem; }
-
+    .container-01 { 
+      max-width: 1100px; 
+      margin: 0 auto;
+    }
+    
+    .container-01::before {
+      content: url(logo.tif);
+     
+      background-color: var(--color-orange-accent);
+      vertical-align: text-bottom;
+    }
+ 
     /* ===================================================
        レスポンシブ：タブレット
     =================================================== */
@@ -687,7 +707,7 @@
   <section id="home" class="fv">
     <div class="fv-container">
       <div class="fv-image-container">
-        <h1><span class="change-font">M</span>e-time <span class="change-font">F</span>itness <span class="change-font">S</span>tudio</h1>
+        <h1><span class="change-font">M</span>e-time <span class="change-font">F</span>itness <span class="change-font">S</span>tudio&emsp;&ensp;</h1>
           <img class="fv-image" src="title.png" alt="メインタイトル：もうひとりで頑張らなくていい −５kg トレーニングに励むお客様と寄り添うトレーナー">
         
       </div>
@@ -907,7 +927,7 @@
         <div class="staff-card">
           <div class="staff-bubble">「スタッフが一番輝き、最高のサービスを提供できるクリアな環境作りに尽力します。」</div>
           <div class="staff-avatar-placeholder"><img src="ope-manager.png" alt="運営管理者・川島知愛実の写真" width="110" height="110"></div>
-          <h4 class="staff-name">運営管理者・川島知愛実</h4>
+          <h4 class="staff-name">運営管理・川島知愛実</h4>
           <p class="staff-role">バックオフィス</p>
         </div>
         <div class="staff-card">
@@ -992,7 +1012,7 @@
   </section>
 
   <footer>
-    <div class="container">
+    <div class="container-01">
       <p>&copy; 2026 Diet HoliDays. All Rights Reserved.</p>
     </div>
   </footer>
