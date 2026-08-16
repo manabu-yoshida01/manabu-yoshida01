@@ -52,12 +52,17 @@
     .text-center { text-align: center; }
 
     .section-title {
-      font-size: 2rem;
-      color: var(--color-brown-main);
-      margin-bottom: 48px;
+     margin-bottom: 48px;
       display: block;
       text-align: center;
-      text-shadow: 1px 2px 0px var(--color-orange-accent);
+      font-size: 2rem;
+      margin-bottom: 24px;
+       background-image: linear-gradient( 90deg, var(--color-brown-main) 0%, var(--color-yellow-cta) 50%, var(--color-orange-accent) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+   
     }
 
     /* --- CTA Button --- */
@@ -532,7 +537,11 @@
        padding: 22px; 
       box-shadow: 3px 4px 5.5px var(--color-brown-main);
       }
-    .faq-q { font-family: var(--font-title); font-weight: bold; color: var(--color-orange-accent); margin-bottom: 8px; }
+    .faq-q { 
+      font-family: var(--font-title); 
+      font-weight: bold; 
+      color: var(--color-orange-accent); 
+      margin-bottom: 8px; }
 
     /* --- 10. Closing --- */
     .closing { 
@@ -566,11 +575,14 @@
       text-align: center;
       padding: 80px 24px;
     }
-    .closing h2 {
-      color: var(--color-white);
+    .section-title-01 {
       font-size: 2rem;
       margin-bottom: 24px;
-      text-shadow: 1px 2px 0px var(--color-gray);
+       background: linear-gradient( 90deg, var(--color-white) 0%, var(--color-yellow-cta) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
     }
 
     /* --- Footer --- */
@@ -944,6 +956,7 @@
   <section id="flow" class="flow section-padding text-center">
     <div class="container fade-up">
       <h2 class="section-title">まずは無料体験へ！<br>無理な勧誘は一切ありません</h2>
+      
       <div class="flow-steps">
         <div class="flow-step">
           <div class="step-num">1</div>
@@ -1005,7 +1018,7 @@
   <!-- 10. クロージング -->
   <section class="closing section-padding text-center">
     <div class="container fade-up">
-      <h2 class="section-title">ココロもカラダも、<br>もうひとりで悩まなくていい。</h2>
+      <h2 class="section-title-01">ココロもカラダも、<br>もうひとりで悩まなくていい。</h2>
       <p style="max-width: 600px; margin: 0 auto 32px; text-align: left;">Diet HoliDaysは、あなたが挫折しないためのすべてを揃えて待っています。プロフェッショナルな仲間たちと一緒に、新しく心地よい自分に出会う一歩を踏み出してみませんか？</p>
       <a href="#flow" class="cta-btn" style="max-width: 430px; margin: 0 auto;">まずは無料体験で雰囲気をチェック！</a>
     </div>
